@@ -8,7 +8,7 @@ class Item:
     """
     pay_rate = 1.0
     all = []
-    CSV_PATH = "C:\DARIA\Python_Projects\electronics_shop_project\src\items.csv"
+    CSV_PATH = os.path.abspath("..\src\items.csv")
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
@@ -27,13 +27,12 @@ class Item:
 
     @property
     def name(self):
-        if len(self.__name) <= 10:
-            return self.__name
-        else:
-            raise Exception("Длина наименования товара превышает 10 символов.")
+        return self.__name
 
     @name.setter
     def name(self, name):
+        if len(name) >= 10:
+            raise Exception("Длина наименования товара превышает 10 символов.")
         self.__name = name
 
     def calculate_total_price(self) -> float:
