@@ -13,6 +13,16 @@ def test_item_init(item_1):
     assert item_1.quantity == 20
 
 
+def test_repr():
+    item1 = Item("Кабель", 10, 5)
+    assert repr(item1) == "Item('Кабель', 10, 5)"
+
+
+def test_str():
+    item1 = Item("Кабель", 10, 5)
+    assert str(item1) == 'Кабель'
+
+
 def test_calculate_total_price(item_1):
     assert item_1.calculate_total_price() == 200000
 
