@@ -74,4 +74,13 @@ class Item:
         """
         return int(float(string))
 
+    def __add__(self, other):
+        """
+        Реализует возможность сложения экземпляров класса
+        (сложение по количеству товара)
+        """
+        if not isinstance(other, Item):
+            raise ValueError('Складывать можно только объекты Item и дочерние от них.')
+        return self.quantity + other.quantity
+
 
