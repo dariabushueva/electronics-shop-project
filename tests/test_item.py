@@ -44,6 +44,11 @@ def test_instantiate_from_csv():
     assert item3.quantity == '3'
 
 
+def test_instantiate_from_csv_error():
+    Item.instantiate_from_csv()
+    assert Item.instantiate_from_csv() is None
+
+
 def test_string_to_number():
     assert Item.string_to_number('3') == 3
     assert Item.string_to_number('3.0') == 3

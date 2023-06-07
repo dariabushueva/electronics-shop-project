@@ -2,13 +2,24 @@ import csv
 import os
 
 
+class InstantiateCSVError(Exception):
+    """Класс исключения, если файл поврежден"""
+    def __init__(self, *args, **kwargs):
+        self.message = args[0] if args else '_Файл item.csv поврежден_'
+
+    def __str__(self):
+        return f"Ошибка: {self.message}"
+
+
 class Item:
     """
     Класс для представления товара в магазине.
     """
     pay_rate = 1.0
     all = []
-    CSV_PATH = os.path.abspath(r"../src/items.csv")
+    CSV_PATH = os.path.abspath(r"../src/items.csv") #нормальный файл
+    #CSV_PATH = os.path.abspath(r"../src/items1.csv") #сломанный файл
+    #CSV_PATH = os.path.abspath(r"../src/items0.csv") #несуществующий файл
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
@@ -63,10 +74,17 @@ class Item:
         Инициализирует экземпляры класса Item данными из файла src/items.csv
         """
         cls.all.clear()
-        with open(cls.CSV_PATH, newline='') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                cls(row['name'], row['price'], row['quantity'])
+        try:
+            with open(cls.CSV_PATH, newline='') as file:
+                reader = csv.DictReader(file)
+                try:
+                    for row in reader:
+                        cls(row['name'], row['price'], row['quantity'])
+                except KeyError:
+                    print('_Файл item.csv поврежден_')
+                    raise InstantiateCSVError
+        except FileNotFoundError:
+            print('_Отсутствует файл item.csv_')
 
     @staticmethod
     def string_to_number(string):
